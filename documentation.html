@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Crypto Price Change API</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-chart-line me-2"></i>
+                Crypto Price Change API
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/documentation">API Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api/crypto/all" target="_blank">API Data</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-4 sticky-top" style="top: 20px; z-index: 1000;">
+                    <div class="card-header">
+                        <h5 class="mb-0">Contents</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <nav id="navbar-example3" class="h-100 flex-column align-items-stretch">
+                            <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="#overview">Overview</a>
+                                <a class="nav-link" href="#endpoints">API Endpoints</a>
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link ms-3 my-1" href="#all-crypto">Get All Crypto Data</a>
+                                    <a class="nav-link ms-3 my-1" href="#single-crypto">Get Single Crypto Data</a>
+                                    <a class="nav-link ms-3 my-1" href="#braze-format">Braze-Ready Format</a>
+                                    <a class="nav-link ms-3 my-1" href="#force-update">Force Update</a>
+                                </nav>
+                                <a class="nav-link" href="#braze-integration">Braze Integration</a>
+                                <a class="nav-link" href="#error-handling">Error Handling</a>
+                                <a class="nav-link" href="#rate-limits">Rate Limits & Caching</a>
+                            </nav>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 id="overview">API Overview</h2>
+                        <p>
+                            The Crypto Price Change API provides real-time data on cryptocurrency price changes 
+                            over the last 24 hours. It's specifically designed to integrate with Braze for 
+                            personalized marketing campaigns that include cryptocurrency information.
+                        </p>
+                        <p>
+                            This API currently supports the following cryptocurrencies:
+                        </p>
+                        <ul>
+                            <li>Bitcoin (BTC)</li>
+                            <li>Ethereum (ETH)</li>
+                            <li>Solana (SOL)</li>
+                            <li>Cardano (ADA)</li>
+                        </ul>
+                        <p>
+                            The data is updated every 15 minutes from the CoinGecko API.
+                        </p>
+
+                        <hr class="my-4">
+
+                        <h2 id="endpoints">API Endpoints</h2>
+                        <p>
+                            The API provides several endpoints for accessing cryptocurrency data:
+                        </p>
+
+                        <h3 id="all-crypto" class="mt-4">Get All Crypto Data</h3>
+                        <div class="card bg-dark mb-3">
+                            <div class="card-header d-flex justify-content-between">
+                                <span><strong>GET</strong> /api/crypto/all</span>
+                                <a href="/api/crypto/all" target="_blank" class="btn btn-sm btn-outline-info">
+                                    Try it
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <p>Returns data for all supported cryptocurrencies.</p>
+                                <h5>Response Format:</h5>
+                                <pre><code class="language-json">{
+  "bitcoin": {
+    "name": "Bitcoin",
+    "symbol": "BTC",
+    "current_price": 48256.23,
+    "price_change_24h": 2.45,
+    "price_change_formatted": "2.45%",
+    "direction": "up",
+    "last_updated": "2023-09-25T14:30:00.000Z"
+  },
+  "ethereum": {
+    "name": "Ethereum",
+    "symbol": "ETH",
+    "current_price": 3245.67,
+    "price_change_24h": -1.23,
+    "price_change_formatted": "-1.23%",
+    "direction": "down",
+    "last_updated": "2023-09-25T14:30:00.000Z"
+  },
+  // Other cryptocurrencies follow the same format
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <h3 id="single-crypto" class="mt-4">Get Single Crypto Data</h3>
+                        <div class="card bg-dark mb-3">
+                            <div class="card-header d-flex justify-content-between">
+                                <span><strong>GET</strong> /api/crypto/{coin_id}</span>
+                                <a href="/api/crypto/bitcoin" target="_blank" class="btn btn-sm btn-outline-info">
+                                    Try it (Bitcoin)
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <p>Returns data for a specific cryptocurrency.</p>
+                                <h5>Parameters:</h5>
+                                <ul>
+                                    <li><code>coin_id</code> - The ID of the cryptocurrency (bitcoin, ethereum, solana, cardano)</li>
+                                </ul>
+                                <h5>Response Format:</h5>
+                                <pre><code class="language-json">{
+  "name": "Bitcoin",
+  "symbol": "BTC",
+  "current_price": 48256.23,
+  "price_change_24h": 2.45,
+  "price_change_formatted": "2.45%",
+  "direction": "up",
+  "last_updated": "2023-09-25T14:30:00.000Z"
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <h3 id="braze-format" class="mt-4">Braze-Ready Format</h3>
+                        <div class="card bg-dark mb-3">
+                            <div class="card-header d-flex justify-content-between">
+                                <span><strong>GET</strong> /api/braze</span>
+                                <a href="/api/braze" target="_blank" class="btn btn-sm btn-outline-info">
+                                    Try it
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <p>Returns data formatted specifically for Braze integration using Liquid templates.</p>
+                                <h5>Response Format:</h5>
+                                <pre><code class="language-json">{
+  "btc_change": "2.45%",
+  "btc_direction": "up",
+  "eth_change": "-1.23%",
+  "eth_direction": "down",
+  "sol_change": "5.67%",
+  "sol_direction": "up",
+  "ada_change": "0.89%",
+  "ada_direction": "up",
+  "last_updated": "2023-09-25T14:30:00.000Z"
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <h3 id="force-update" class="mt-4">Force Update</h3>
+                        <div class="card bg-dark mb-3">
+                            <div class="card-header">
+                                <strong>POST</strong> /api/update
+                            </div>
+                            <div class="card-body">
+                                <p>Manually triggers an update of the cryptocurrency data.</p>
+                                <h5>Response Format:</h5>
+                                <pre><code class="language-json">{
+  "status": "success",
+  "message": "Data updated successfully"
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h2 id="braze-integration">Braze Integration</h2>
+                        <p>
+                            The API is designed to be easily integrated with Braze for personalized marketing campaigns. 
+                            Here's how to use the API with Braze:
+                        </p>
+
+                        <h5>Step 1: Set up a Connected Content call in Braze</h5>
+                        <p>
+                            Use Braze's Connected Content feature to fetch data from the API:
+                        </p>
+                        <pre><code class="language-liquid">{% raw %}
+{% connected_content https://your-api-domain.com/api/braze :save crypto %}
+{% endraw %}</code></pre>
+
+                        <h5>Step 2: Use the data in your message templates</h5>
+                        <p>
+                            After fetching the data, you can use it in your message templates:
+                        </p>
+                        <pre><code class="language-liquid">{% raw %}
+Bitcoin is {{crypto.btc_direction}} {{crypto.btc_change}} in the last 24 hours!
+{% endraw %}</code></pre>
+                        <p>
+                            This would render something like: "Bitcoin is up 2.45% in the last 24 hours!"
+                        </p>
+
+                        <h5>Advanced Example: Conditional Content</h5>
+                        <pre><code class="language-liquid">{% raw %}
+{% if crypto.btc_direction == 'up' %}
+🚀 Bitcoin is on the rise! It's up {{crypto.btc_change}} in the last 24 hours.
+{% elsif crypto.btc_direction == 'down' %}
+📉 Bitcoin has dipped {{crypto.btc_change}} in the last 24 hours. Time to buy?
+{% else %}
+Bitcoin is stable at the moment.
+{% endif %}
+{% endraw %}</code></pre>
+
+                        <hr class="my-4">
+
+                        <h2 id="error-handling">Error Handling</h2>
+                        <p>
+                            The API returns standard HTTP status codes to indicate success or failure:
+                        </p>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>200 OK</strong>
+                                    <div>The request was successful</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>404 Not Found</strong>
+                                    <div>The requested resource does not exist</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>500 Internal Server Error</strong>
+                                    <div>An error occurred on the server</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>
+                            Error responses will include a JSON object with an error message:
+                        </p>
+                        <pre><code class="language-json">{
+  "error": "Cryptocurrency not found"
+}</code></pre>
+
+                        <hr class="my-4">
+
+                        <h2 id="rate-limits">Rate Limits & Caching</h2>
+                        <p>
+                            The API updates data from the CoinGecko API every 15 minutes. To prevent exceeding 
+                            CoinGecko's rate limits, please cache the API responses where possible.
+                        </p>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            For Braze integration, it's recommended to set up your Connected Content calls 
+                            with appropriate caching to minimize API requests.
+                        </div>
+                        <pre><code class="language-liquid">{% raw %}
+{% connected_content https://your-api-domain.com/api/braze :save crypto :cache_max_age 900 %}
+{% endraw %}</code></pre>
+                        <p>
+                            This example sets a cache time of 15 minutes (900 seconds), matching the update frequency of the API.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Crypto Price Change API</h5>
+                    <p>A simple API for cryptocurrency price changes designed for Braze integration.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>Data updates every 15 minutes</p>
+                    <p class="mb-0">Powered by CoinGecko API</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize syntax highlighting
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

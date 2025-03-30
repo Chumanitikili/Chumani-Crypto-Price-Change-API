@@ -1,0 +1,38 @@
+{
+  "bitcoin": {
+    "name": "Bitcoin",
+    "symbol": "BTC",
+    "current_price": 83031,
+    "price_change_24h": 0.47826,
+    "price_change_formatted": "0.48%",
+    "direction": "up",
+    "last_updated": "2025-03-30T13:00:34.519720"
+  },
+  "ethereum": {
+    "name": "Ethereum",
+    "symbol": "ETH",
+    "current_price": 1832.76,
+    "price_change_24h": -1.31835,
+    "price_change_formatted": "-1.32%",
+    "direction": "down",
+    "last_updated": "2025-03-30T13:00:34.519737"
+  },
+  "solana": {
+    "name": "Solana",
+    "symbol": "SOL",
+    "current_price": 124.93,
+    "price_change_24h": -0.90725,
+    "price_change_formatted": "-0.91%",
+    "direction": "down",
+    "last_updated": "2025-03-30T13:00:34.519741"
+  },
+  "cardano": {
+    "name": "Cardano",
+    "symbol": "ADA",
+    "current_price": 0.674534,
+    "price_change_24h": 0.09026,
+    "price_change_formatted": "0.09%",
+    "direction": "up",
+    "last_updated": "2025-03-30T13:00:34.519751"
+  }
+}

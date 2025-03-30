@@ -1,0 +1,34 @@
+Subject: Your New Chumani Crypto Price Change App - How We Made It!
+
+Hello there!
+
+I wanted to explain how I built your Chumani Crypto Price Change App in a super simple way:
+
+Imagine we built a magic robot that checks how much Bitcoin, Ethereum, Solana, and Cardano coins cost. Here's how we did it:
+
+1. First, we used a special building tool called Python and a helper named Flask. Think of it like using LEGO blocks to build a house!
+
+2. Next, we taught our robot to talk to a treasure chest called CoinGecko. This treasure chest knows the prices of all the magic internet coins people use.
+
+3. We made our robot check the treasure chest every 15 minutes to see if the prices changed. If a coin's price goes up, we show a green arrow pointing up. If it goes down, we show a red arrow pointing down.
+
+4. We built a pretty house (website) for our robot to live in. We used special colorful blocks called Bootstrap to make the house look nice on phones and computers.
+
+5. We also made our robot speak a special language called Braze, so it can tell your email robot about coin prices. This way, you can send people emails that say "Bitcoin went up 2% today!"
+
+The tools we used were:
+- Python (the main building blocks)
+- Flask (the glue that holds everything together)
+- CoinGecko (the treasure chest with all the coin prices)
+- Bootstrap (the pretty decorations)
+- APScheduler (the alarm clock that reminds our robot to check prices)
+- JSON files (like a notebook where our robot writes down the prices)
+
+To see the robot working, just visit your website! It shows how much the coins cost and whether they went up or down. You can share this with your friends who want to know about cryptocurrency prices.
+
+The best part? The robot works all by itself, day and night, checking prices and keeping your website up to date!
+
+I hope you enjoy your new Chumani Crypto Price Change App!
+
+Best wishes,
+Your Developer

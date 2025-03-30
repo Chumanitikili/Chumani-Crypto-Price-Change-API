@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Price Change API</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-chart-line me-2"></i>
+                Crypto Price Change API
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/documentation">API Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api/crypto/all" target="_blank">API Data</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Cryptocurrency Price Changes (24h)</h5>
+                        <button class="btn btn-sm btn-outline-secondary" id="refreshButton">
+                            <i class="fas fa-sync-alt me-1"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="cryptoCards">
+                            {% for coin_id, data in crypto_data.items() %}
+                            <div class="col-md-3 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ data.name }} ({{ data.symbol }})</h5>
+                                        <p class="card-text">
+                                            <span class="current-price">${{ "%.2f"|format(data.current_price) }}</span>
+                                        </p>
+                                        <p class="card-text">
+                                            <span class="price-change {% if data.direction == 'up' %}text-success{% else %}text-danger{% endif %}">
+                                                <i class="fas fa-{% if data.direction == 'up' %}arrow-up{% else %}arrow-down{% endif %} me-1"></i>
+                                                {{ data.price_change_formatted }}
+                                            </span>
+                                        </p>
+                                        <p class="card-text text-muted small">
+                                            Last updated: {{ data.last_updated.split("T")[0] }} {{ data.last_updated.split("T")[1].split(".")[0] }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted small">
+                        Data provided by CoinGecko API. Updates automatically every 15 minutes.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">API Integration</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Integrate with your applications using our simple API endpoints:</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-0">All Crypto Data</h6>
+                                    <code>/api/crypto/all</code>
+                                </div>
+                                <a href="/api/crypto/all" target="_blank" class="btn btn-sm btn-outline-info">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-0">Bitcoin Data</h6>
+                                    <code>/api/crypto/bitcoin</code>
+                                </div>
+                                <a href="/api/crypto/bitcoin" target="_blank" class="btn btn-sm btn-outline-info">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-0">Braze-Ready Format</h6>
+                                    <code>/api/braze</code>
+                                </div>
+                                <a href="/api/braze" target="_blank" class="btn btn-sm btn-outline-info">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Braze Integration</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Integrate with Braze using Liquid templating:</p>
+                        <div class="bg-dark p-3 rounded">
+                            <pre class="mb-0"><code>Bitcoin is {% raw %}{{custom_attribute.${btc_direction}}}{% endraw %} {% raw %}{{custom_attribute.${btc_change}}}{% endraw %} in the last 24 hours!</code></pre>
+                        </div>
+                        <hr>
+                        <p>Example output:</p>
+                        <div class="alert alert-secondary">
+                            Bitcoin is {{ crypto_data.bitcoin.direction }} {{ crypto_data.bitcoin.price_change_formatted }} in the last 24 hours!
+                        </div>
+                        <a href="/documentation" class="btn btn-outline-primary mt-2">
+                            <i class="fas fa-book me-1"></i> View Full Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Crypto Price Change API</h5>
+                    <p>A simple API for cryptocurrency price changes designed for Braze integration.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>Data updates every 15 minutes</p>
+                    <p class="mb-0">Powered by CoinGecko API</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const refreshButton = document.getElementById('refreshButton');
+            
+            refreshButton.addEventListener('click', function() {
+                refreshButton.disabled = true;
+                refreshButton.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Updating...';
+                
+                fetch('/api/update', {
+                    method: 'POST',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        window.location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                        refreshButton.disabled = false;
+                        refreshButton.innerHTML = '<i class="fas fa-sync-alt me-1"></i> Refresh';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error updating data. Please try again.');
+                    refreshButton.disabled = false;
+                    refreshButton.innerHTML = '<i class="fas fa-sync-alt me-1"></i> Refresh';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

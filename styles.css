@@ -1,0 +1,96 @@
+/* Additional custom styles for the Crypto Price Change API */
+
+/* Card styling */
+.card {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Crypto price styling */
+.current-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.price-change {
+    font-weight: 500;
+}
+
+/* Code block styling */
+pre {
+    border-radius: 0.375rem;
+    background-color: #1e1e1e;
+}
+
+pre code {
+    padding: 1rem;
+    font-family: 'Fira Code', monospace;
+}
+
+/* API endpoint cards */
+.card-header {
+    font-weight: 500;
+}
+
+/* Navbar styling */
+.navbar-brand i {
+    color: #7cb5ec;
+}
+
+/* Footer styling */
+footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Documentation page */
+.sticky-top {
+    top: 20px;
+}
+
+/* Make sure code examples are readable on dark theme */
+code.language-json, 
+code.language-liquid {
+    color: #f8f9fa;
+}
+
+/* Add space before headings in documentation */
+h2, h3 {
+    margin-top: 2rem;
+    padding-top: 1rem;
+}
+
+/* Table of contents nav styling */
+.nav-pills .nav-link {
+    border-radius: 0;
+    padding: 0.5rem 1rem;
+}
+
+.nav-pills .nav-link.active {
+    background-color: rgba(108, 117, 125, 0.2);
+    color: #f8f9fa;
+}
+
+/* Try it buttons */
+.btn-outline-info {
+    border-color: #17a2b8;
+    color: #17a2b8;
+}
+
+.btn-outline-info:hover {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sticky-top {
+        position: relative;
+        top: 0;
+    }
+}
